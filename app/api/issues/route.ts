@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
+  // if data is valid, store this data in DB and then return newly created issue to user in api response
   const newIssue = await prisma.issue.create({
     data: {
       title: body.title,

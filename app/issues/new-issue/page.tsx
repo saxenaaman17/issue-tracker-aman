@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Callout, Text, TextArea, TextField } from "@radix-ui/themes";
+import { Button, Callout, TextField } from "@radix-ui/themes";
+// import dynamic from "next/dynamic";
 import SimpleMDE from "react-simplemde-editor";
 // SimpleMDE doesn't allow spreading props using spread operator, hence we have to use Controller
 import { useForm, Controller } from "react-hook-form";
@@ -17,6 +18,11 @@ import Spinner from "@/app/components/Spinner";
 //   title: string;
 //   description: string;
 // }
+
+// lazy loading a component in next js
+// const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+//   ssr: false,
+// });
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 

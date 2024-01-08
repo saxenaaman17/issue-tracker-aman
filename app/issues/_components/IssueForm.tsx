@@ -14,12 +14,8 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Issue } from "@prisma/client";
 
-// interface IssueForm {
-//   title: string;
-//   description: string;
-// }
-
 // lazy loading a component in next js but we don't need it because we use 'use client'
+// but for external libraries, we may need to do it
 // const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 //   ssr: false,
 // });

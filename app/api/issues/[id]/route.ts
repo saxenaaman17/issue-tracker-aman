@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { issueSchema } from "../../../validationSchemas";
+import authOptions from "@/app/auth/authOptions";
+import { getServerSession } from "next-auth";
 
 // we send PATCH request if we have to update some properties of an object and if we
 // need to update whole object then we send PUT request
@@ -8,6 +10,10 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // if user is not logged in, don't let them create issues by calling api
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const body = await request.json();
 
   // now firstly we need to validate the data
@@ -43,6 +49,10 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  // if user is not logged in, don't let them create issues by calling api
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const issue = await prisma.issue.findUnique({
     where: {
       id: parseInt(params.id),

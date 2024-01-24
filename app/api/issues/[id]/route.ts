@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
-import { issueSchema } from "../../../validationSchemas";
+import { patchIssueSchema } from "../../../validationSchemas";
 import authOptions from "@/app/auth/authOptions";
 import { getServerSession } from "next-auth";
 
@@ -16,10 +16,22 @@ export async function PATCH(
 
   const body = await request.json();
 
+  const { title, description, assignedToUserId } = body;
+
   // now firstly we need to validate the data
-  const validation = issueSchema.safeParse(body);
+  const validation = patchIssueSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
+
+  // After validating data, we can check if user exists or not before assigning issue to user
+  if (assignedToUserId) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: assignedToUserId,
+      },
+    });
+    if (!user) NextResponse.json({ error: "Invalid User." }, { status: 400 });
+  }
 
   // secondly, we also need to check if the issue we want to update exist in our db or not
   const issue = await prisma.issue.findUnique({
@@ -37,8 +49,9 @@ export async function PATCH(
       id: issue.id,
     },
     data: {
-      title: body.title,
-      description: body.description,
+      title,
+      description,
+      assignedToUserId,
     },
   });
 

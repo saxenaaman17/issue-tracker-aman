@@ -5,7 +5,7 @@ import { useState } from "react";
 import SimpleMDE from "react-simplemde-editor";
 // SimpleMDE doesn't allow spreading props using spread operator, hence we have to use Controller
 import { ErrorMessage, Spinner } from "@/app/components";
-import { issueSchema } from "@/app/validationSchemas";
+import { patchIssueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
@@ -20,7 +20,7 @@ import { Issue } from "@prisma/client";
 //   ssr: false,
 // });
 
-type IssueFormData = z.infer<typeof issueSchema>;
+type IssueFormData = z.infer<typeof patchIssueSchema>;
 
 interface Props {
   issue?: Issue;
@@ -34,7 +34,7 @@ const IssueForm = ({ issue }: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(issueSchema),
+    resolver: zodResolver(patchIssueSchema),
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

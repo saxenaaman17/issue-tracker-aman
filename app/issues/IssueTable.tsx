@@ -1,13 +1,17 @@
 import { IssueStatusBadge, Link } from "@/app/components";
-import { Issue, Status } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { SearchParams } from "./page";
 
+interface ExtendedIssue extends Issue {
+  assignedToUser?: User | null;
+}
+
 interface Props {
   searchParams: SearchParams;
-  issues: Issue[];
+  issues: ExtendedIssue[];
 }
 
 const IssueTable = async ({ searchParams, issues }: Props) => {
@@ -49,6 +53,15 @@ const IssueTable = async ({ searchParams, issues }: Props) => {
             <Table.Cell className="hidden md:table-cell">
               {issue.createdAt.toDateString()}
             </Table.Cell>
+            {issue.assignedToUser ? (
+              <Table.Cell className="hidden md:table-cell">
+                {issue.assignedToUser.name}
+              </Table.Cell>
+            ) : (
+              <Table.Cell className="hidden md:table-cell">
+                Unassigned
+              </Table.Cell>
+            )}
           </Table.Row>
         ))}
       </Table.Body>
@@ -69,6 +82,11 @@ const columns: { label: string; value: keyof Issue; className?: string }[] = [
   {
     label: "Created",
     value: "createdAt",
+    className: "hidden md:table-cell",
+  },
+  {
+    label: "Assignee",
+    value: "assignedToUserId",
     className: "hidden md:table-cell",
   },
 ];

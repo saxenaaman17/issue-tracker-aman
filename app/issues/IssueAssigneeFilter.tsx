@@ -15,7 +15,7 @@ const IssueAssigneeFilter = () => {
 
   const handleOnValueChange = (userId: string) => {
     const params = new URLSearchParams();
-    if (userId !== "ALL") params.append("userId", userId);
+    if (userId !== "ALL") params.append("assignedToUserId", userId);
     if (searchParams.get("orderBy"))
       params.append("orderBy", searchParams.get("orderBy")!);
     if (searchParams.get("status"))

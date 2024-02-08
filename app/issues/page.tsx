@@ -11,7 +11,7 @@ export interface SearchParams {
   status: Status;
   orderBy: keyof Issue;
   page: string;
-  userId: string;
+  assignedToUserId: string;
 }
 
 interface Props {
@@ -23,7 +23,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined; // if we pass undefined to prisma, it doesn't filter issues for that property
-  const where = { status, assignedToUserId: searchParams.userId };
+  const where = { status, assignedToUserId: searchParams.assignedToUserId };
 
   const orderBy = columnNames.includes(searchParams.orderBy)
     ? { [searchParams.orderBy]: "asc" }
@@ -37,6 +37,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
     orderBy,
     skip: (page - 1) * pageSize,
     take: pageSize,
+    include: {
+      assignedToUser: true,
+    },
   });
 
   const issueCount = await prisma.issue.count({ where });

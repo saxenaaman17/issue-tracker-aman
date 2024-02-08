@@ -26,7 +26,10 @@ const IssueAssigneeFilter = () => {
   };
 
   return (
-    <Select.Root onValueChange={handleOnValueChange}>
+    <Select.Root
+      onValueChange={handleOnValueChange}
+      defaultValue={searchParams.get("userId") || ""}
+    >
       <Select.Trigger placeholder="filter by User..." />
       <Select.Content>
         <Select.Item value="ALL">All</Select.Item>

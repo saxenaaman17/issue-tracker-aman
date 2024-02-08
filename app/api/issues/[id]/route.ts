@@ -10,18 +10,19 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  // if user is not logged in, don't let them create issues by calling api
+  // if user is not logged in, don't let them update issues by calling api
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
 
-  const { title, description, assignedToUserId } = body;
+  const { title, description, assignedToUserId, status } = body;
 
   // now firstly we need to validate the data
   const validation = patchIssueSchema.safeParse(body);
-  if (!validation.success)
+  if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
+  }
 
   // After validating data, we can check if user exists or not before assigning issue to user
   if (assignedToUserId) {
@@ -52,6 +53,7 @@ export async function PATCH(
       title,
       description,
       assignedToUserId,
+      status,
     },
   });
 
@@ -62,7 +64,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  // if user is not logged in, don't let them create issues by calling api
+  // if user is not logged in, don't let them delete issues by calling api
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
 

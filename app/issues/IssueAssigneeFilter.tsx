@@ -20,6 +20,8 @@ const IssueAssigneeFilter = () => {
       params.append("orderBy", searchParams.get("orderBy")!);
     if (searchParams.get("status"))
       params.append("status", searchParams.get("status")!);
+    if (searchParams.get("pageSize"))
+      params.append("pageSize", searchParams.get("pageSize")!);
     const queryParam = params.size ? `?${params.toString()}` : "";
 
     router.push(`/issues${queryParam}`);

@@ -31,8 +31,10 @@ const IssueStatusFilter = () => {
     if (status !== "ALL") params.append("status", status);
     if (searchParams.get("orderBy"))
       params.append("orderBy", searchParams.get("orderBy")!);
-    if (searchParams.get("userId"))
-      params.append("userId", searchParams.get("userId")!);
+    if (searchParams.get("assignedToUserId"))
+      params.append("assignedToUserId", searchParams.get("assignedToUserId")!);
+    if (searchParams.get("pageSize"))
+      params.append("pageSize", searchParams.get("pageSize")!);
     const queryParam = params.size ? `?${params.toString()}` : "";
 
     // const queryParam = status !== "ALL" ? `?status=${status}` : "";

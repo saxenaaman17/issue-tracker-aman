@@ -16,21 +16,23 @@ const IssueAssigneeFilter = () => {
   const handleOnValueChange = (userId: string) => {
     const params = new URLSearchParams();
     if (userId !== "ALL") params.append("assignedToUserId", userId);
-    if (searchParams.get("orderBy"))
-      params.append("orderBy", searchParams.get("orderBy")!);
-    if (searchParams.get("status"))
-      params.append("status", searchParams.get("status")!);
-    if (searchParams.get("pageSize"))
-      params.append("pageSize", searchParams.get("pageSize")!);
-    const queryParam = params.size ? `?${params.toString()}` : "";
 
+    const paramKeys = ["orderBy", "status", "pageSize", "search"];
+
+    paramKeys.forEach((key) => {
+      const value = searchParams.get(key);
+      if (value) params.append(key, value);
+    });
+
+    const queryParam = params.size ? `?${params.toString()}` : "";
     router.push(`/issues${queryParam}`);
   };
 
   return (
     <Select.Root
       onValueChange={handleOnValueChange}
-      defaultValue={searchParams.get("userId") || ""}
+      // defaultValue={searchParams.get("assignedToUserId") ?? ""}
+      value={searchParams.get("assignedToUserId") ?? ""}
     >
       <Select.Trigger placeholder="filter by User..." />
       <Select.Content>

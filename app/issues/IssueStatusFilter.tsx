@@ -29,22 +29,23 @@ const IssueStatusFilter = () => {
   const handleOnValueChange = (status: string) => {
     const params = new URLSearchParams();
     if (status !== "ALL") params.append("status", status);
-    if (searchParams.get("orderBy"))
-      params.append("orderBy", searchParams.get("orderBy")!);
-    if (searchParams.get("assignedToUserId"))
-      params.append("assignedToUserId", searchParams.get("assignedToUserId")!);
-    if (searchParams.get("pageSize"))
-      params.append("pageSize", searchParams.get("pageSize")!);
-    const queryParam = params.size ? `?${params.toString()}` : "";
 
-    // const queryParam = status !== "ALL" ? `?status=${status}` : "";
+    const paramKeys = ["orderBy", "assignedToUserId", "pageSize", "search"];
+
+    paramKeys.forEach((key) => {
+      const value = searchParams.get(key);
+      if (value) params.append(key, value);
+    });
+
+    const queryParam = params.size ? `?${params.toString()}` : "";
     router.push(`/issues${queryParam}`);
   };
 
   return (
     <Select.Root
       onValueChange={handleOnValueChange}
-      defaultValue={searchParams.get("status") || ""}
+      // defaultValue={searchParams.get("status") ?? ""}
+      value={searchParams.get("status") ?? ""}
     >
       <Select.Trigger placeholder="Filter by Status..." />
       <Select.Content>

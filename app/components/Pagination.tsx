@@ -39,7 +39,11 @@ const Pagination = ({ total, pageSize, currentPage }: Props) => {
   return (
     <Flex align="center" gap="2">
       <Text size="2">Rows per page:</Text>
-      <Select.Root defaultValue={`${pageSize}`} onValueChange={pageSizeChange}>
+      <Select.Root
+        // defaultValue={`${pageSize}`}
+        value={`${pageSize}`}
+        onValueChange={pageSizeChange}
+      >
         <Select.Trigger placeholder="Page Size" />
         <Select.Content>
           {pageSizeOptions.map((pageSizeOption) => (

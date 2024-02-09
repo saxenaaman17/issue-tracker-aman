@@ -10,6 +10,15 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+.dark .react-loading-skeleton {
+  --base-color: #424242;
+  --highlight-color: #616161;
+}
+
+.dark .recharts-cartesian-axis-ticks text {
+  fill: white;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -23,5 +32,17 @@ body {
 @layer utilities {
   .nav-link {
     @apply text-zinc-500 hover:text-zinc-800 transition-colors;
+  }
+
+  .nav-link-active {
+    @apply !text-zinc-900;
+  }
+
+  .dark .nav-link {
+    @apply text-zinc-300 hover:text-zinc-100;
+  }
+
+  .dark .nav-link-active {
+    @apply !text-violet-400;
   }
 }

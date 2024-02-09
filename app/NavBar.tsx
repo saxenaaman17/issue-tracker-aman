@@ -14,6 +14,7 @@ import {
   Text,
 } from "@radix-ui/themes";
 import { Skeleton } from "@/app/components";
+import ThemeSwitch from "./ThemeSwitch";
 
 const NavLinks = () => {
   const currentPath = usePathname();
@@ -30,7 +31,7 @@ const NavLinks = () => {
             href={link.href}
             className={classNames({
               "nav-link": true,
-              "!text-zinc-900": link.href === currentPath,
+              "nav-link-active": link.href === currentPath,
             })}
           >
             {link.label}
@@ -92,7 +93,10 @@ const NavBar = () => {
             </Link>
             <NavLinks />
           </Flex>
-          <AuthStatus />
+          <Flex gap="6" align="center">
+            <ThemeSwitch />
+            <AuthStatus />
+          </Flex>
         </Flex>
       </Container>
     </nav>

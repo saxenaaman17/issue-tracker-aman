@@ -6,8 +6,8 @@ import IssueSearch from "./IssueSearch";
 
 const IssueActions = () => {
   return (
-    <Flex justify="between">
-      <Flex gap="4" align="center">
+    <Flex justify="between" className="flex-col md:flex-row">
+      <Flex gap="4" align="center" className="mb-3 md:mb-0">
         <IssueStatusFilter />
         <IssueAssigneeFilter />
       </Flex>

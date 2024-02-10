@@ -10,9 +10,17 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+button {
+  cursor: pointer;
+}
+
 button[data-accent-color="red"] {
   background-color: var(--accent-9) !important;
   color: var(--accent-9-contrast) !important;
+}
+
+button[data-accent-color="red"]:hover {
+  background-color: var(--accent-10) !important;
 }
 
 .dark .react-loading-skeleton {

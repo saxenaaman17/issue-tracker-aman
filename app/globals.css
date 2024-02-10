@@ -10,6 +10,11 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+button[data-accent-color="red"] {
+  background-color: var(--accent-9) !important;
+  color: var(--accent-9-contrast) !important;
+}
+
 .dark .react-loading-skeleton {
   --base-color: #424242;
   --highlight-color: #616161;

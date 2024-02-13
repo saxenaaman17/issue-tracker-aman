@@ -27,7 +27,9 @@ const IssueStatusFilter = () => {
   const searchParams = useSearchParams();
 
   const handleOnValueChange = (status: string) => {
+    alert('test');
     const params = new URLSearchParams();
+    alert('test1');
     if (status !== "ALL") params.append("status", status);
 
     const paramKeys = ["orderBy", "assignedToUserId", "pageSize", "search"];

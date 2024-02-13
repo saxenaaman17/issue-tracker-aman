@@ -39,7 +39,12 @@ const IssueStatusFilter = () => {
       if (value) params.append(key, value);
     });
 
+    alert('params added');
+
     const queryParam = params.size ? `?${params.toString()}` : "";
+
+    alert('url done');
+    alert(`/issues${queryParam}`);
     router.push(`/issues${queryParam}`);
   };
 

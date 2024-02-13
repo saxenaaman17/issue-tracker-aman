@@ -4,6 +4,7 @@ import { TextField } from "@radix-ui/themes";
 import { debounce } from "lodash";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback } from "react";
+import { createQueryString, QueryParams } from "../utils/general-utils";
 
 const IssueSearch = () => {
   const router = useRouter();
@@ -12,17 +13,23 @@ const IssueSearch = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceSearch = useCallback(
     debounce((value: string) => {
-      const params = new URLSearchParams();
-      if (value) params.append("search", value);
+      const params: QueryParams = {};
+
+      if (value) {
+        params["search"] = value;
+      }
 
       const paramKeys = ["pageSize"];
 
       paramKeys.forEach((key) => {
         const value = searchParams.get(key);
-        if (value) params.append(key, value);
+        if (value) {
+          params[key] = value;
+        }
       });
 
-      const queryParam = params.size ? `?${params.toString()}` : "";
+      const queryString = createQueryString(params);
+      const queryParam = queryString ? `?${queryString}` : "";
       router.push(`/issues${queryParam}`);
     }, 1000),
     []

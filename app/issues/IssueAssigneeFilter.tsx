@@ -3,6 +3,7 @@ import { Skeleton } from "@/app/components";
 import { Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUsers } from "./[id]/AssigneeSelect";
+import { createQueryString, QueryParams } from "../utils/general-utils";
 
 const IssueAssigneeFilter = () => {
   const router = useRouter();
@@ -14,17 +15,23 @@ const IssueAssigneeFilter = () => {
   if (error) return null;
 
   const handleOnValueChange = (userId: string) => {
-    const params = new URLSearchParams();
-    if (userId !== "ALL") params.append("assignedToUserId", userId);
+    const params: QueryParams = {};
+
+    if (userId !== "ALL") {
+      params["assignedToUserId"] = userId;
+    }
 
     const paramKeys = ["orderBy", "status", "pageSize", "search"];
 
     paramKeys.forEach((key) => {
       const value = searchParams.get(key);
-      if (value) params.append(key, value);
+      if (value) {
+        params[key] = value;
+      }
     });
 
-    const queryParam = params.size ? `?${params.toString()}` : "";
+    const queryString = createQueryString(params);
+    const queryParam = queryString ? `?${queryString}` : "";
     router.push(`/issues${queryParam}`);
   };
 

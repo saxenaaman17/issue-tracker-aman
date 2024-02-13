@@ -2,6 +2,7 @@
 import { Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
+import { createQueryString, QueryParams } from "../utils/general-utils";
 
 const statuses: { label: string; value: Status | "ALL" }[] = [
   {
@@ -26,25 +27,39 @@ const IssueStatusFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // const handleOnValueChange = (status: string) => {
+  //   const params = new URLSearchParams();
+  //   if (status !== "ALL") params.append("status", status);
+
+  //   const paramKeys = ["orderBy", "assignedToUserId", "pageSize", "search"];
+
+  //   paramKeys.forEach((key) => {
+  //     const value = searchParams.get(key);
+  //     if (value) params.append(key, value);
+  //   });
+
+  //   const queryParam = params.size ? `?${params.toString()}` : "";
+  //   router.push(`/issues${queryParam}`);
+  // };
+
   const handleOnValueChange = (status: string) => {
-    alert('test');
-    const params = new URLSearchParams();
-    alert('test1');
-    if (status !== "ALL") params.append("status", status);
+    const params: QueryParams = {};
+
+    if (status !== "ALL") {
+      params["status"] = status;
+    }
 
     const paramKeys = ["orderBy", "assignedToUserId", "pageSize", "search"];
 
     paramKeys.forEach((key) => {
       const value = searchParams.get(key);
-      if (value) params.append(key, value);
+      if (value) {
+        params[key] = value;
+      }
     });
 
-    alert('params added');
-
-    const queryParam = params.size ? `?${params.toString()}` : "";
-
-    alert('url done');
-    alert(`/issues${queryParam}`);
+    const queryString = createQueryString(params);
+    const queryParam = queryString ? `?${queryString}` : "";
     router.push(`/issues${queryParam}`);
   };
 
